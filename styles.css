@@ -1,154 +1,372 @@
-
-
-::selection {
-  background-color: #3c6e40;
-  color: white;
-  text-shadow: 1px 1px 3px rgba(183, 228, 199, 0.5);
-}
-
-@font-face {
-    font-family: 'Comic Fixed'; /* Choose a name for your font */
-    src: url('./ComicFixed-Regular.otf') format('opentype'); /* Specify the path and format */
-    font-weight: normal; /* Define weight and style if needed */
-    font-style: normal;
-}
-
-
-/* autum theme:root{
-      --green-1:#030303;
-      --green-2:#fbb854;
-      --green-3:#a25910;
-      --panel:#ffa724;
-      --panel-2:#e68200;
-    } */
 :root {
-	--green-1: #b7e4c7;
+    --selec-green: #3c6e40; /* green main colors for site from old site */
+    --green-1: #b7e4c7;
 	--green-2: #5a9e67;
 	--green-3: #3c6e40;
 	--green-4: #8fb79a;
 	--panel: #ffffff;
 	--panel-2: #e3f3e8;
+
 }
 
-
-/*:root{
-      --green-1:#b7e4d8; 
-      --green-2:#90D5FF;
-      --green-3:#0468a5;
-      --panel:#ffffff;
-      --panel-2:#e3f3e8;
-    }*/
-
-/*:root{
-      --green-1:#0f1724;
-      --green-2:#60a5fa;
-      --green-3:#60a5fa;
-      --panel:#0b1220;
-      --panel-2:#60a5fa;
-    }
-    */
-
-* {
-	box-sizing: border-box
+::selection {
+    background-color: var(--selec-green);
+    color: white; /* text color for some reason */
+    text-shadow: 1px 1px 3px rgba(183, 228, 199, 0.5);
 }
-/* Header */
-#header {
-	width: 100%;
-	background-color: var(--green-2);
-	color: white;
-	padding: 12px 16px;
-	font-size: 18px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 24px;
-	user-select: none;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-	position: sticky;
-	top: 0;
-	z-index: 10;
+@font-face {
+    font-family: 'Comic Fixed'; /* main font for site */
+    src: url('https://codehs.com/uploads/88c3a585e2fc2c0cc0811197dd8de93c') format('truetype'); 
+    font-weight: normal; 
+    font-style: normal;
+    font-size: 10px;
 }
 
-#header a {
-	color: inherit;
-	text-decoration: none;
-}
-
-#header-right {
-	margin-left: auto;
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-
-
-/* make body just center main panel */
 body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--green-1);
-  font-family: "Comic Fixed", sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--green-1);
+    font-family: "Comic Sans MS", sans-serif;
+    
+}
+.emoji {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+    margin: 0 0.15em;
+}
+.gh {
+    background-image: url('https://avatars.githubusercontent.com/u/9919?s=200&v=4'); 
+}
+.main-body {
+    /* font-family: 'Comic Fixed'; */
+    align-items: left !important;on
+    animati: growOnLoad 3.5s ease-out forwards;
+    justify-content: left !important;
+    text-align: left !important;
+    display: block;
+    height: 50vh;
+    /* font-size: 20px; */
+    margin-left; 100px;
+    border-width: 5px;
+    border-color: #43B651;
+    border-style: solid;
+    border-radius: 25px;
+    background-color: #ffffff;
+    box-shadow: 10px 10px 25px black;
+    width: 75%;
+    padding-left: 50px;
+    padding-top: 30px;
+}
+p.current {
+     background-image: linear-gradient(90deg, #b8860b, #ffd700, #fffacd, #ffd700, #b8860b);
+	background-size: 300% 100%;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: goldShift 4s ease-in-out infinite; 
+
+}
+#header button.current {
+    position: relative;
+    border: 5px solid transparent; 
+    background-color: var(--green-2);
+    border-radius: 20px;
 }
 
-/* main container */
-.main-panel {
-  width: 570px;
-  height: 400px;
-  display: flex;
-  background: var(--green-3);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+#header button.current::before {
+    content: '';
+    position: absolute;
+    inset: 0; 
+    border-radius: 20px;
+    padding: 5px; 
+    background: linear-gradient(90deg, #b8860b, #ffd700, #fffacd, #ffd700, #b8860b);
+    background-size: 300% 100%;
+    
+    
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    
+    pointer-events: none;
+    animation: goldShift 4s ease-in-out infinite, pulseBorder 1.8s ease-in-out infinite alternate;
 }
 
-/* left side text */
-.left-side {
-  width: 50%;
-  padding: 20px;
-  color: white;
-  overflow-y: auto;
+@keyframes pulseBorder {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0; 
+    }
+}
+@keyframes growOnLoad {
+  0%, 60% {
+    width: 0%; 
+    height: 0%;
+    opacity: 0;
+    border-radius: 0px;
+    color: rgb(0 0 0 / 0%);
+  }
+  80% {
+      color: rgb(0 0 0 / 0%);
+  }
+  100% {
+    width: 75%; 
+    height: 50vh;
+    opacity: 1;
+    border-radius: 25px;
+    color: rgb(0 0 0 / 100%);
+  }
+}
+#header {
+    width: 100%;
+    height: 14%;
+    background-color: var(--green-2);
+    color: white;
+    padding: 12px 16px;
+    padding-right: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    gap: 24px;
+    user-select: none; /* code hs editor SUCKSSS */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    font-family: "Comic Sans MS", sans-serif;
+}
+#header button {
+    background-color: inherit;
+    border-style: solid;
+    border-width: 5px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    border-color: var(--green-2);
+    border-radius: 20px;
+    transition: border-radius 0.2s ease-in-out, padding-left 0.2s ease-in-out, padding-bottom 0.2s ease-in-out, padding-top 0.2s ease-in-out, padding-right 0.2s ease-in-out;
+    font: inherit;
+    color: white;
+}
+#header button:hover {
+    background-color: var(--green-4);
+    border-style: solid;
+    border-width: 4px;
+    padding-left: 70px;
+    padding-right: 70px;
+    padding-bottom: 7px;
+    padding-top: 7px;
+    border-color: var(--green-3);
+    border-radius: 40px;
+    transition: border-radius 0.2s ease-in-out, padding-left 0.2s ease-in-out, padding-bottom 0.2s ease-in-out, padding-top 0.2s ease-in-out, padding-right 0.2s ease-in-out;
+    font: inherit;
+    color: white;
+    cursor: pointer;
+}
+.img-container {
+    gap: 25px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height: 1000px;
+}
+.img-container img {
+    border-radius: 100px;
+    display: block;
+    width: 150px;
+    transition: width, 0.3s;
+}
+.img-container img:hover {
+    border-radius: 100px;
+    display: block;
+    width: 200px;
+    cursor: pointer;
+    transition: width, 0.3s;
+}
+h1 {
+    display: block;
+    margin-bottom: 20px;
 }
 
-/* right side scrollable panel container */
-.right-side {
-  width: 50%;
-  padding: 10px;
-  box-sizing: border-box;
-  background: var(--green-4);
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.p-container {
+    flex-shrink: 0;
+    gap: 1px;
+    border-radius: 10px;
+    flex-direction: column;
+    display: flex;
+    background-color: var(--green-2);
+    height: 210px;
+    width: 210px;
+    transition: all 1.2s;
 }
-
-/* individual cards */
-.card {
-  position: relative;
-  height: 120px;
-  border-radius: 8px;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-  cursor: pointer;
-  flex-shrink: 0; /* important for horizontal scroll if needed later */
-  transition: transform 0.2s ease;
+.p-container:hover {
+    flex-shrink: 0;
+    border-radius: 10px;
+    display: flex;
+    overflow: hidden;
+    background-color: var(--green-2);
+    height: 310px;
+    width: 270px;
+    transition: all 1.2s;
 }
-
-.card:hover {
-  transform: scale(1.03);
+.p-container img {
+    border-radius: 00px;
+    display: block;
+    padding: 10px;
+    transition: all 01.2s;
+    width: 190px;
+    height: 190px;
+    object-fit: cover;
+    position: sticky;
+    top: 0;
 }
-
-/* text overlay on cards */
-.card-text {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 10px;
-  color: white;
-  font-weight: bold;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+.p-container:hover img {
+    border-radius: 00px;
+    display: block;
+    transition: all 01.2s;
+    height: 130px;
+    width: 250px;
+    object-fit: cover;
+}
+ .p-container:hover p:nth-of-type(1) {
+    gap: 25px;
+    padding-left: 12px;
+    padding-top: 0px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    padding: none;
+    margin: 0;
+    font-size: 14px;
+    transition: all 1.6s;
+    text-align: left;
+    opacity: 1;
+    
+} 
+ .p-container:hover p:nth-of-type(2) {
+    gap: 25px;
+    padding-left: 12px;
+    padding-top: 0px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    padding: none;
+    margin: 0;
+    font-size: 14px;
+    transition: all 1.8s;
+    text-align: left;
+    opacity: 1;
+    
+} 
+ .p-container:hover p:nth-of-type(3) {
+    gap: 25px;
+    padding-left: 12px;
+    padding-top: 0px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    padding: none;
+    margin: 0;
+    font-size: 14px;
+    transition: all 2.0s;
+    text-align: left;
+    opacity: 1;
+    
+} 
+ .p-container:hover p:nth-of-type(4) {
+    gap: 25px;
+    padding-left: 12px;
+    padding-top: 0px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    padding: none;
+    margin: 0;
+    font-size: 14px;
+    transition: all 2.2s;
+    text-align: left;
+    opacity: 1;
+    
+} 
+ .p-container:hover p:nth-of-type(5) {
+    gap: 25px;
+    padding-left: 12px;
+    padding-top: 0px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    padding: none;
+    margin: 0;
+    font-size: 14px;
+    transition: all 2.4s;
+    text-align: left;
+    opacity: 1;
+    
+} 
+ .p-container:hover p:nth-of-type(6) {
+    gap: 25px;
+    padding-left: 12px;
+    padding-top: 0px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    padding: none;
+    margin: 0;
+    font-size: 14px;
+    transition: all 2.6s;
+    text-align: left;
+    opacity: 1;
+    
+} 
+.p-container p {
+    gap: 25px;
+    align-items: left;
+    display: flex;
+    font-size: 0px;
+    margin: 0;
+    justify-content: left;
+    transition: all 1.2s;
+    text-align: left;
+    opacity: 0;
+    
+}
+ .p-container:hover h1 {
+    gap: 25px;
+    font-size: 24px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    padding: none;
+    margin: 0;
+    transition: all 01.2s;
+    text-align: left;
+    opacity: 1;
+    
+} 
+.p-container h1 {
+    gap: 25px;
+    align-items: left;
+    font-size: 0px;
+    margin: 0;
+    display: flex;
+    justify-content: left;
+    transition: all 01.2s;
+    text-align: left;
+    opacity: 0;
+    
 }
