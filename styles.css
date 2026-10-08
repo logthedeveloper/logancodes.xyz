@@ -48,7 +48,7 @@ body {
 .main-body {
     /* font-family: 'Comic Fixed'; */
     align-items: left !important;on
-    animati: growOnLoad 3.5s ease-out forwards;
+    animation: growOnLoad 3.5s ease-out forwards;
     justify-content: left !important;
     text-align: left !important;
     display: block;
