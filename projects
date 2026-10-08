@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Projects</title>
+        <link rel="icon" href="icon.png">
+        <link rel="stylesheet" href="styles.css">
+        <meta charset="UTF-8">
+        <meta description="my website yes">
+        <script src="scripts.js"></script>
+    </head>
+    <body>
+    <div id="header">
+    <button onclick="window.location.href='index.html';"><p>main page</p></button>
+    <button class="current" onclick="window.location.href='projects.html';"><p class="current">projects</p></button>
+    <button onclick="window.location.href='links.html';"><p>links</p></button>
+    </div>
+    <div class="p-container">
+     <img  alt="create: logan's utils logo" src="https://codehs.com/uploads/0cff35b818fef86bc8a903baced506fb">
+     <h1>Create: Logan's Utils</h1>
+     <p>This project is a minecraft mod that</p>
+     <p>adds aditional content to another mod</p>
+     <p>called the Create Mod, which aims to</p>
+     <p>industrialise minecraft. My mod adds</p>
+     <p>some fixes and other content to make</p>
+     <p>the create mod easier to play. <span onclick="window.location.href='https://github.com/logthedeveloper/createlogansutils';" class="emoji gh"></span></p>
+    <br>
+    
+    </div>
+    </body>
+
+</html>
