@@ -21,7 +21,13 @@
     font-style: normal;
     font-size: 10px;
 }
-
+@starting-style {
+    {
+        .main-body b{
+            opacity: 0;
+        }
+    }
+}
 body {
     margin: 0;
     height: 100vh;
@@ -45,14 +51,20 @@ body {
 .gh {
     background-image: url('https://avatars.githubusercontent.com/u/9919?s=200&v=4'); 
 }
+table, td, th {
+    border-color: var(--green-3);
+    border-style: solid;
+    border-collapse: collapse;
+    padding: 5px;
+}
 .main-body {
     /* font-family: 'Comic Fixed'; */
     align-items: left !important;
-    animation: growOnLoad 3.5s ease-out forwards;
+    animation: growOnLoad 3.0s ease-out forwards;
     justify-content: left !important;
     text-align: left !important;
     display: block;
-    height: 50vh;
+    height: 60vh;
     /* font-size: 20px; */
     margin-left; 100px;
     border-width: 5px;
@@ -62,8 +74,57 @@ body {
     background-color: #ffffff;
     box-shadow: 10px 10px 25px black;
     width: 75%;
+    overflow: auto;
     padding-left: 50px;
     padding-top: 30px;
+}
+html {
+    scroll-width: thin;
+    scroll-color: var(--green-2) var(--green-2);
+}
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: var(--green-2);
+    border-radius 30px;
+}
+::-webkit-scrollbar-thumb {
+    width: 5px;
+    background-color: var(--green-2);
+    border-radius 30px;
+}
+::-webkit-scrollbar-thumb:hover {
+    width: 5px;
+    background-color: var(--green-2);
+    border-radius 30px;
+}
+
+.main-body h1:nth-of-type(1) {
+    animation: growOnLoadB 4.2s ease-out forwards;
+}
+
+.main-body b:nth-of-type(1) {
+
+    animation: growOnLoadB 5.3s ease-out forwards;
+}
+.main-body i:nth-of-type(1) {
+
+    animation: growOnLoadB 6.0s ease-out forwards;
+}
+.main-body b:nth-of-type(2) {
+
+    animation: growOnLoadB 7.0s ease-out forwards;
+}
+.main-body b:nth-of-type(3) {
+
+    animation: growOnLoadB 8.0s ease-out forwards;
+}
+.main-body h2:nth-of-type(1) {
+
+    animation: growOnLoadB 9.4s ease-out forwards;
+}
+.main-body table:nth-of-type(1) {
+
+    animation: growOnLoadB 10.8s ease-out forwards;
 }
 
 #header button.current {
@@ -124,6 +185,23 @@ body {
     height: 50vh;
     opacity: 1;
     border-radius: 25px;
+    color: rgb(0 0 0 / 100%);
+  }
+}
+@keyframes growOnLoadB {
+  0%, 90% {
+
+    opacity: 0;
+
+    color: rgb(0 0 0 / 0%);
+  }
+  90% {
+      color: rgb(0 0 0 / 0%);
+  }
+  100% {
+
+    opacity: 1;
+
     color: rgb(0 0 0 / 100%);
   }
 }
@@ -371,4 +449,10 @@ h1 {
     text-align: left;
     opacity: 0;
     
+
+
+.main-body.skip-animations .main-body * {
+  animation: none !important;
+  opacity: 1 !important;
+  color: initial !important;
 }
