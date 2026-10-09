@@ -47,7 +47,7 @@ body {
 }
 .main-body {
     /* font-family: 'Comic Fixed'; */
-    align-items: left !important;on
+    align-items: left !important;
     animation: growOnLoad 3.5s ease-out forwards;
     justify-content: left !important;
     text-align: left !important;
@@ -65,47 +65,49 @@ body {
     padding-left: 50px;
     padding-top: 30px;
 }
-p.current {
-     background-image: linear-gradient(90deg, #b8860b, #ffd700, #fffacd, #ffd700, #b8860b);
-	background-size: 300% 100%;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	animation: goldShift 4s ease-in-out infinite; 
 
-}
 #header button.current {
-    position: relative;
-    border: 5px solid transparent; 
-    background-color: var(--green-2);
+    background-color: inherit;
+    border-style: solid;
+    border-width: 5px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    border-color: var(--green-2);
     border-radius: 20px;
+    transition: border-radius 0.2s ease-in-out, padding-left 0.2s ease-in-out, padding-bottom 0.2s ease-in-out, padding-top 0.2s ease-in-out, padding-right 0.2s ease-in-out;
+    font: inherit;
+    color: white;
+    animation: pulseBorder 1.5s infinite ease-in-out;
 }
-
-#header button.current::before {
-    content: '';
-    position: absolute;
-    inset: 0; 
-    border-radius: 20px;
-    padding: 5px; 
-    background: linear-gradient(90deg, #b8860b, #ffd700, #fffacd, #ffd700, #b8860b);
-    background-size: 300% 100%;
-    
-    
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    
-    pointer-events: none;
-    animation: goldShift 4s ease-in-out infinite, pulseBorder 1.8s ease-in-out infinite alternate;
+#header button.current:hover {
+    background-color: var(--green-4);
+    border-style: solid;
+    border-width: 4px;
+    padding-left: 70px;
+    padding-right: 70px;
+    padding-bottom: 7px;
+    padding-top: 7px;
+    border-color: var(--green-3);
+    border-radius: 40px;
+    transition: border-radius 0.2s ease-in-out, padding-left 0.2s ease-in-out, padding-bottom 0.2s ease-in-out, padding-top 0.2s ease-in-out, padding-right 0.2s ease-in-out;
+    font: inherit;
+    color: white;
+    cursor: pointer;
+    animation: none;
 }
 
 @keyframes pulseBorder {
-    0% {
-        opacity: 1;
+    0%, 100% {
+        border-color: var(--green-2);
     }
-    100% {
-        opacity: 0; 
+    50% {
+        border-color: var(--green-1);
     }
 }
+
+
 @keyframes growOnLoad {
   0%, 60% {
     width: 0%; 
