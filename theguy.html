@@ -3,68 +3,116 @@
 
 <head>
   <script>
-(function () {
-  // Only run when opened inside your main portal iframe
-  if (window.top === window.self) return;
+  (function () {
+    let lastSyncedJson = "";
+    let initialLoadDone = false;
+    let bootReady = false;
+    const bootQueue = [];
 
-  let lastSyncedJson = "";
-  let initialLoadDone = false;
+    function finishBootWait() {
+      if (bootReady) return;
+      bootReady = true;
+      while (bootQueue.length) {
+        try { bootQueue.shift()(); } catch (e) {}
+      }
+    }
 
-  // 1. Receive saved data from the main portal and apply it to localStorage
-  window.addEventListener("message", function (event) {
-    const msg = event.data;
-    if (!msg || msg.type !== "LOAD_CLOUD_SAVE") return;
+    // Allows applicationLoad() to wait briefly for cloud save before booting Love()
+    window.__onCloudSaveReady = function (fn) {
+      if (bootReady) fn();
+      else bootQueue.push(fn);
+    };
 
-    if (msg.storage) {
-      try {
-        const savedObj = JSON.parse(msg.storage);
-        let changed = false;
+    // If opened standalone (not inside portal), boot immediately
+    if (window.top === window.self) {
+      finishBootWait();
+      return;
+    }
 
-        Object.keys(savedObj).forEach(function (key) {
-          if (localStorage.getItem(key) !== savedObj[key]) {
-            localStorage.setItem(key, savedObj[key]);
-            changed = true;
+    // Fallback timeout so the game always boots within 1.2s even on slow connections
+    setTimeout(function () {
+      initialLoadDone = true;
+      finishBootWait();
+    }, 1200);
+
+    // Walk up all parent frames so nested Google Apps Script / embed wrappers are bypassed
+    function postToPortal(payload) {
+      let win = window.parent;
+      while (win) {
+        try {
+          win.postMessage(payload, "*");
+          if (win === window.top) break;
+          win = win.parent;
+        } catch (e) {
+          break;
+        }
+      }
+    }
+
+    // Receive saved localStorage from the main portal
+    window.addEventListener("message", function (event) {
+      const msg = event.data;
+      if (!msg || msg.type !== "LOAD_CLOUD_SAVE") return;
+
+      if (msg.storage) {
+        try {
+          const savedObj = JSON.parse(msg.storage);
+          let changed = false;
+
+          Object.keys(savedObj).forEach(function (key) {
+            if (localStorage.getItem(key) !== savedObj[key]) {
+              localStorage.setItem(key, savedObj[key]);
+              changed = true;
+            }
+          });
+
+          lastSyncedJson = JSON.stringify(localStorage);
+          console.log("[CloudSave] Restored save from portal.");
+
+          // If Love() already booted before the save arrived, reload once
+          if (bootReady && changed && !sessionStorage.getItem("cloud_save_restored")) {
+            sessionStorage.setItem("cloud_save_restored", "1");
+            location.reload();
+            return;
           }
-        });
+        } catch (e) {
+          console.warn("[CloudSave] Parse error:", e);
+        }
+      }
 
-        lastSyncedJson = JSON.stringify(localStorage);
+      initialLoadDone = true;
+      finishBootWait();
+    });
 
-        // Reload once so the game reads the restored localStorage on boot
-        if (changed && !sessionStorage.getItem("cloud_save_restored")) {
-          sessionStorage.setItem("cloud_save_restored", "1");
-          location.reload();
-          return;
+    // Ask the portal for this user's save
+    postToPortal({ type: "REQUEST_CLOUD_SAVE" });
+    setTimeout(function () {
+      if (!bootReady) postToPortal({ type: "REQUEST_CLOUD_SAVE" });
+    }, 350);
+
+    // Send updated localStorage back to the main portal
+    function pushSaveToPortal() {
+      if (!initialLoadDone) return;
+      try {
+        const currentJson = JSON.stringify(localStorage);
+        if (currentJson && currentJson !== "{}" && currentJson !== lastSyncedJson) {
+          lastSyncedJson = currentJson;
+          postToPortal({
+            type: "SYNC_CLOUD_SAVE",
+            storage: currentJson
+          });
+          console.log("[CloudSave] Synced progress to portal.");
         }
       } catch (e) {}
     }
 
-    initialLoadDone = true;
-  });
-
-  // 2. Ask the main portal for this user's save as soon as the game loads
-  window.top.postMessage({ type: "REQUEST_CLOUD_SAVE" }, "*");
-
-  // 3. Send updated localStorage back to the main portal whenever progress changes
-  function pushSaveToPortal() {
-    if (!initialLoadDone) return;
-    try {
-      const currentJson = JSON.stringify(localStorage);
-      if (currentJson && currentJson !== "{}" && currentJson !== lastSyncedJson) {
-        lastSyncedJson = currentJson;
-        window.top.postMessage({
-          type: "SYNC_CLOUD_SAVE",
-          storage: currentJson
-        }, "*");
-      }
-    } catch (e) {}
-  }
-
-  setInterval(pushSaveToPortal, 5000);
-  document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "hidden") pushSaveToPortal();
-  });
-})();
-</script>
+    window.__triggerCloudSync = pushSaveToPortal;
+    setInterval(pushSaveToPortal, 4000);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") pushSaveToPortal();
+    });
+  })();
+  </script>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -99,6 +147,9 @@
           try {
             if (window.localStorage) {
               window.localStorage.setItem(name, value);
+              if (window.__triggerCloudSync) {
+                setTimeout(window.__triggerCloudSync, 500);
+              }
               return true;
             }
           } catch (err) {
@@ -221,7 +272,11 @@
     };
 
     var applicationLoad = function(e) {
-      Love(Module);
+      if (window.__onCloudSaveReady) {
+        window.__onCloudSaveReady(function() { Love(Module); });
+      } else {
+        Love(Module);
+      }
     }
   </script>
   <script type="text/javascript" src="game.js"></script>
@@ -231,9 +286,4 @@
     </footer> -->
 </body>
 
-
 </html>
-
-
-
-
